@@ -2,6 +2,10 @@ let playlist =
 [{
   'title': 'Como dormiste - Rels B',
   'audio': "assets/cómo dormiste.mp3",
+},
+ {
+  'title': 'Media Pastiii - Rels B',
+  'audio': "assets/Media Pastiii.mp3",
 }, {
   'title': 'A Mi - Rels B',
   'audio': "assets/A Mí.mp3",
