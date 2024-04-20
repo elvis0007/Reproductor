@@ -1,5 +1,9 @@
 let playlist = 
 [{
+  'title': 'Lucy - Rels B',
+  'audio': "assets/Lucy.mp3",
+},
+  {
   'title': 'Como dormiste - Rels B',
   'audio': "assets/cómo dormiste.mp3",
 },
@@ -15,7 +19,9 @@ let playlist =
 }, {
   'title': 'Por Dentro - Rels B',
   'audio': "assets/Por Dentro.mp3",
-}];
+}
+
+];
 
 
 i = 0;
