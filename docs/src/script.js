@@ -7,6 +7,10 @@ let playlist =
   'title': 'Como dormiste - Rels B',
   'audio': "assets/cómo dormiste.mp3",
 },
+{
+  'title': 'Pretty GIRL  a new star (1 9 9 3) - Rels B',
+  'audio': "assets/Pretty GIRL  a new star (1 9 9 3).mp3",
+},
  {
   'title': 'Media Pastiii - Rels B',
   'audio': "assets/Media Pastiii.mp3",
