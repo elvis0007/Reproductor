@@ -1,5 +1,9 @@
 let playlist = 
 [{
+  'title': 'LOVE IT- Rels B',
+  'audio': "assets/Rels B - LOVE IT (Audio).mp3",
+},
+{
   'title': 'Lucy - Rels B',
   'audio': "assets/Lucy.mp3",
 },
