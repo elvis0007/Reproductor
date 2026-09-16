@@ -1,69 +1,77 @@
 <!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>Para la dentista más bonita</title>
-    <link href="https://fonts.googleapis.com/css?family=Darker+Grotesque|Poiret+One&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para la dentista más bonita 💕</title>
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="src/theme.css">
     <link rel="stylesheet" type="text/css" href="src/style.css">
     <link rel="shortcut icon" href="./assets/Corazon.png" type="image/x-icon">
 </head>
 <body>
-<div class="audio-player" id="skin">
 
-    <div class="user_avatar">
-        <br />
-        <a title="Para más desarrollos ConfiguroWeb"><img src="assets/LatidosCora.jpg"></a>
-        <!-- Se eliminan las opciones de tema -->
-    </div>s
-    <div class="holder">
-        <div class="cover">
-            <img src="./assets/musica-corazon.webp">
-        </div>
-        <div class="audio-wrapper" id="player-container" href="javascript:;">
-            <audio id="player" preload="metadata" onloadedmetadata="mDur()" ontimeupdate="initProgressBar()">
-                <source src="" type="audio/mp3">
-            </audio>
-        </div>
-        <div class="player-controls scrubber">
-            <div>
-                <div>
-                    <p class="title"></p>
-                </div>
-                <div class="range">
-                    <input id="dur" type="range" class="range" name="rng" min="0" max="1" step="0.00000001" value="0" onchange="mSet()" style="width: 100%">
-                </div>
-                <br>
-                <span class="time start-time"></span>
-                <span class="time end-time"></span>
-                <br>
-                <div class="ctrl">
-                    <div>
-                        <a href="#prev" class="ctrl_btn " id="prev"><i class="fa fa-arrow-left" ></i></a>
-                        <span id="play-btn" class="fa fa-play "></span>
-                        <a href="#next" class="ctrl_btn " id="next"><i class="fa fa-arrow-right" ></i></a>
-                    </div>
-                    <div class="volumeControl">
-                        <div class="wrapper">
-                            <i class="fa fa-volume-up"></i>
-                            <span class="outer">
-                                <span class="inner"></span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-            </div>
-        </div>
-    </div> 
-</div>
+    <div class="hearts-bg" id="heartsBg"></div>
 
-<script type="text/javascript" src="assets/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="src/script.js"></script>
+    <div class="app">
 
-<div class="footer">
-    <h1 style="text-align: center; "><a>Para la niña mas bonita</a></h1>
-</div>
+        <header class="app-header">
+            <h1 class="brand brand-title">Para tí <span class="heart-pulse">♥</span></h1>
+            <p class="tagline">Una playlist romántica de Rels B, hecha con cariño</p>
+        </header>
+
+        <div class="file-warning" id="fileWarning" style="display:none;">
+            ⚠️ Estás abriendo este archivo directamente desde tu computadora, por eso YouTube no deja reproducir los videos aquí (error de "embed"). Sube esta carpeta a <strong>GitHub Pages</strong> o ábrela desde un servidor local para que funcione perfecto.
+        </div>
+
+        <main class="layout">
+
+            <section class="player-card">
+                <div class="video-frame">
+                    <div id="yt-player"></div>
+                </div>
+
+                <div class="now-playing">
+                    <p class="np-label">Reproduciendo ahora</p>
+                    <h2 class="np-title" id="npTitle">Cargando...</h2>
+                    <p class="np-artist">Rels B</p>
+                </div>
+
+                <div class="progress-row">
+                    <span class="time" id="currentTime">0:00</span>
+                    <input type="range" id="seekBar" class="seek" min="0" max="100" value="0" step="0.1">
+                    <span class="time" id="durationTime">0:00</span>
+                </div>
+
+                <div class="controls">
+                    <button class="ctrl-btn" id="shuffleBtn" title="Aleatorio"><i class="fa fa-random"></i></button>
+                    <button class="ctrl-btn" id="prevBtn" title="Anterior"><i class="fa fa-step-backward"></i></button>
+                    <button class="ctrl-btn play-btn" id="playBtn" title="Reproducir"><i class="fa fa-play"></i></button>
+                    <button class="ctrl-btn" id="nextBtn" title="Siguiente"><i class="fa fa-step-forward"></i></button>
+                    <button class="ctrl-btn" id="repeatBtn" title="Repetir"><i class="fa fa-repeat"></i></button>
+                </div>
+
+                <div class="volume-row">
+                    <i class="fa fa-volume-up"></i>
+                    <input type="range" id="volumeBar" class="volume" min="0" max="100" value="80">
+                </div>
+            </section>
+
+            <aside class="playlist-card">
+                <h3 class="playlist-title"><i class="fa fa-music"></i> Canciones para tí <span class="playlist-count" id="playlistCount"></span></h3>
+                <ul class="playlist" id="playlist"></ul>
+            </aside>
+
+        </main>
+
+        <footer class="footer">
+            <p>Para la niña más bonita <span class="heart-pulse">♥</span></p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="src/hearts.js"></script>
+    <script src="src/script.js"></script>
 </body>
 </html>

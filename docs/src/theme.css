@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --rose: #ff5d8f;
+  --rose-light: #ffb3c6;
+  --wine: #4a0d2c;
+  --deep: #1a0512;
+  --gold: #ffd166;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 20% 20%, #6a1338 0%, transparent 45%),
+              radial-gradient(circle at 80% 10%, #3d0e2e 0%, transparent 40%),
+              radial-gradient(circle at 50% 90%, #7a1445 0%, transparent 50%),
+              linear-gradient(160deg, #1a0512 0%, #2b0a1f 40%, #4a0d2c 75%, #22081a 100%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* ---------- Floating hearts background (shared) ---------- */
+.hearts-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hearts-bg span {
+  position: absolute;
+  bottom: -10%;
+  color: rgba(255, 93, 143, 0.55);
+  font-size: 1.2rem;
+  animation-name: floatUp;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  text-shadow: 0 0 8px rgba(255, 93, 143, 0.6);
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-110vh) translateX(var(--drift, 40px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.heart-pulse {
+  display: inline-block;
+  color: var(--rose);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+/* ---------- Shared glass card ---------- */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Shared animated brand title ---------- */
+.brand-title {
+  font-family: 'Dancing Script', cursive;
+  background: linear-gradient(90deg, var(--rose-light), var(--gold), var(--rose));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 4s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ---------- Shared CTA button ---------- */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--rose), #b5174e);
+  border: none;
+  padding: 0.9rem 2.2rem;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(255, 93, 143, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(255, 93, 143, 0.65);
+}
+
+/* ---------- Toast / small notice ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 20px);
+  background: rgba(20, 5, 14, 0.92);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 20;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.file-warning {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto 1.2rem;
+  background: rgba(255, 209, 102, 0.14);
+  border: 1px solid rgba(255, 209, 102, 0.4);
+  color: #ffe9b3;
+  padding: 0.8rem 1.1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 1.4;
+}

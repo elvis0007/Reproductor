@@ -1,197 +1,266 @@
-let playlist = 
-[{
-  'title': 'LOVE IT- Rels B',
-  'audio': "assets/Rels B - LOVE IT (Audio).mp3",
-},
-{
-  'title': 'Lucy - Rels B',
-  'audio': "assets/Lucy.mp3",
-},
-  {
-  'title': 'Como dormiste - Rels B',
-  'audio': "assets/cómo dormiste.mp3",
-},
-{
-  'title': 'Pretty GIRL  a new star (1 9 9 3) - Rels B',
-  'audio': "assets/Pretty GIRL  a new star (1 9 9 3).mp3",
-},
- {
-  'title': 'Media Pastiii - Rels B',
-  'audio': "assets/Media Pastiii.mp3",
-}, {
-  'title': 'A Mi - Rels B',
-  'audio': "assets/A Mí.mp3",
-}, {
-  'title': 'Sonríe - Rels B',
-  'audio': "assets/SONRÍE.mp3",
-}, {
-  'title': 'Por Dentro - Rels B',
-  'audio': "assets/Por Dentro.mp3",
-}
-
+// Playlist romántica de Rels B (reproducida desde YouTube)
+const playlist = [
+  { title: 'LOVE IT', videoId: '-n_gb-KV1j0' },
+  { title: 'Lucy', videoId: 'XeQ-2bao1lQ' },
+  { title: 'Cómo dormiste?', videoId: 'PSjeJrDI4a4' },
+  { title: 'Pretty GIRL (a new star 1993)', videoId: 'BSi5Cpcm4mc' },
+  { title: 'Media Pastiii', videoId: 'krGTKGAjm1E' },
+  { title: 'A Mí', videoId: 'Q4Js9OEODHM' },
+  { title: 'Sonríe', videoId: 'WQ6Q5nYZl_A' },
+  { title: 'Por Dentro (ft. Kenia OS)', videoId: '1yhNARgC6I8' },
+  { title: 'pa quererte', videoId: 'XQeBTVeWkDo' },
+  { title: 'balearico', videoId: 'h-MA21yJ-7g' },
+  { title: 'Un Rodeoooo', videoId: 'UN_gY08Xylg' },
+  { title: 'LOCA', videoId: '2qsPTMwwEzU' },
+  { title: 'Buenos Genes (ft. Dellafuente)', videoId: '7-pnUgGurMU' },
+  { title: 'Ni 1 Complejo', videoId: 'paE0GdOJAsY' },
+  { title: 'CLASE G', videoId: 'MKirfZeIrpo' },
+  { title: 'Mi Amor (con Aitana)', videoId: 'TC6pGc895yY' },
+  { title: 'Lejos de Ti', videoId: 'opr9Vewr3Oo' },
+  { title: 'Si me muero', videoId: 'UMlHv-Z5rEI' },
+  { title: 'Mi Luz (RVFV ft. Rels B)', videoId: 'uU2UAEHbpOw' },
+  { title: 'Reina de Pikas', videoId: 'lC9cgTbMmlU' },
+  { title: 'Vuelve Contigo', videoId: '1TI0qH2Kpvk' },
+  { title: 'Mejor No Nos Vemos', videoId: 'Ghywp7i032A' },
+  { title: 'yo pr1mero', videoId: 'UkXrBPuAWOc' },
+  { title: 'Shorty Q Te Vaya Bnn', videoId: 'L_C1EB0qoPY' },
+  { title: 'Lo Que Hay X Aquí', videoId: 'qWCup_EZSWE' },
+  { title: 'Sin Mirar Las Señales', videoId: '4OT447-Eldg' },
+  { title: 'Se Me Olvidó (con Gera MX)', videoId: 'NJjHBb6BvqI' },
+  { title: 'La Última Canción', videoId: 'VukKOGBk5d8' },
+  { title: 'Tu Vas Sin (fav)', videoId: 'LypslWGSvSI' },
+  { title: 'UYUNI', videoId: 'JS6XoPJyYCI' },
 ];
 
+let player;
+let currentIndex = 0;
+let isShuffle = false;
+let isRepeat = false;
+let progressTimer = null;
+let toastTimer = null;
+let consecutiveErrors = 0;
 
-i = 0;
-n = playlist.length;
-let player = document.getElementById('player');
-let dur = document.getElementById('dur');
+const npTitle = document.getElementById('npTitle');
+const playBtn = document.getElementById('playBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const shuffleBtn = document.getElementById('shuffleBtn');
+const repeatBtn = document.getElementById('repeatBtn');
+const seekBar = document.getElementById('seekBar');
+const volumeBar = document.getElementById('volumeBar');
+const currentTimeEl = document.getElementById('currentTime');
+const durationTimeEl = document.getElementById('durationTime');
+const playlistEl = document.getElementById('playlist');
+const playlistCountEl = document.getElementById('playlistCount');
+const fileWarningEl = document.getElementById('fileWarning');
+const toastEl = document.getElementById('toast');
 
-function switchDark() {
-  $('#skin').attr('class', 'dark audio-player');
-  $('.inner').css('background', '#fff');
-  $('.title').css('color', '#fff');
-  $('.time').css('color', '#fff');
-  $('.fa-volume-up').css({
-    'color': '#fff'
-  });
-  $('.audio-player #play-btn').css({
-    'color': '#fff',
-    'border-color': '#fff'
-  });
-  $('.ctrl_btn').css({
-    'color': '#fff',
-    'border-color': '#fff'
-  });
-}
-$(document).ready(function () {
-  switchDark();
-});
-
-playlist.forEach(function (i) {
-  console.log(i.audio)
-  player.src = i.audio;
-  $('.title').html(i.title);
-});
-
-
-
-playlist.forEach(function (i) {
-  console.log(i.audio)
-  player.src = i.audio;
-  $('.title').html(i.title);
-},);
-
-function calculateTotalValue(length) {
-  let minutes = Math.floor(length / 60),
-    seconds_int = length - minutes * 60,
-    seconds_str = seconds_int.toString(),
-    seconds = seconds_str.substr(0, 2),
-    time = minutes + ':' + seconds
-  return time;
+function thumbUrl(videoId) {
+  return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 }
 
-function calculateCurrentValue(currentTime) {
-  let current_hour = parseInt(currentTime / 3600) % 24,
-    current_minute = parseInt(currentTime / 60) % 60,
-    current_seconds_long = currentTime % 60,
-    current_seconds = current_seconds_long.toFixed(),
-    current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
-  return current_time;
+function formatTime(seconds) {
+  if (!isFinite(seconds) || seconds < 0) return '0:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
 }
 
-function initProgressBar() {
-  let length = player.duration;
-  let current_time = player.currentTime;
-  let totalLength = calculateTotalValue(length)
-  jQuery(".end-time").html(totalLength);
-  let currentTime = calculateCurrentValue(current_time);
-  jQuery(".start-time").html(currentTime);
-  dur.value = player.currentTime;
-  if (player.currentTime == player.duration) {
-    $("#play-btn").fadeIn("slow", function () {
-      $(this).removeClass("fa-pause");
-      $(this).addClass("fa-play");
-      dur.value = 0;
-    });
+function showToast(message) {
+  if (!toastEl) return;
+  toastEl.textContent = message;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3200);
+}
+
+function renderPlaylist() {
+  playlistEl.innerHTML = '';
+  if (playlistCountEl) {
+    playlistCountEl.textContent = playlist.length + ' canciones';
   }
+  playlist.forEach((track, index) => {
+    const li = document.createElement('li');
+    li.className = 'track' + (index === currentIndex ? ' playing' : '');
+    li.innerHTML = `
+      <img class="thumb" src="${thumbUrl(track.videoId)}" alt="${track.title}" loading="lazy">
+      <div class="meta">
+        <div class="track-title">${track.title}</div>
+        <div class="track-artist">Rels B</div>
+      </div>
+      <div class="eq"><span></span><span></span><span></span></div>
+    `;
+    li.addEventListener('click', () => playTrack(index));
+    playlistEl.appendChild(li);
+  });
+}
+
+function highlightActiveTrack() {
+  [...playlistEl.children].forEach((li, index) => {
+    li.classList.toggle('playing', index === currentIndex);
+  });
+}
+
+function playTrack(index) {
+  currentIndex = index;
+  npTitle.textContent = playlist[currentIndex].title;
+  highlightActiveTrack();
+  if (player && player.loadVideoById) {
+    player.loadVideoById(playlist[currentIndex].videoId);
+  }
+}
+
+function nextTrack() {
+  if (isShuffle) {
+    let next;
+    do {
+      next = Math.floor(Math.random() * playlist.length);
+    } while (next === currentIndex && playlist.length > 1);
+    playTrack(next);
+  } else {
+    playTrack((currentIndex + 1) % playlist.length);
+  }
+}
+
+function prevTrack() {
+  playTrack((currentIndex - 1 + playlist.length) % playlist.length);
+}
+
+function setPlayIcon(playing) {
+  playBtn.innerHTML = playing ? '<i class="fa fa-pause"></i>' : '<i class="fa fa-play"></i>';
+}
+
+function togglePlay() {
+  if (!player || !player.getPlayerState) return;
+  const state = player.getPlayerState();
+  if (state === YT.PlayerState.PLAYING) {
+    player.pauseVideo();
+  } else {
+    player.playVideo();
+  }
+}
+
+function startProgressLoop() {
+  clearInterval(progressTimer);
+  progressTimer = setInterval(() => {
+    if (!player || !player.getDuration) return;
+    const duration = player.getDuration();
+    const current = player.getCurrentTime();
+    if (duration > 0) {
+      seekBar.max = duration;
+      seekBar.value = current;
+      currentTimeEl.textContent = formatTime(current);
+      durationTimeEl.textContent = formatTime(duration);
+    }
+  }, 400);
+}
+
+function stopProgressLoop() {
+  clearInterval(progressTimer);
+}
+
+// --- YouTube IFrame API ---
+function loadYouTubeAPI() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+}
+
+window.onYouTubeIframeAPIReady = function () {
+  player = new YT.Player('yt-player', {
+    height: '100%',
+    width: '100%',
+    videoId: playlist[currentIndex].videoId,
+    playerVars: {
+      rel: 0,
+      modestbranding: 1,
+      playsinline: 1,
+      origin: window.location.origin || undefined,
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+      onError: onPlayerError,
+    },
+  });
 };
 
-function mSet() {
-  player.currentTime = dur.value;
+function onPlayerReady() {
+  npTitle.textContent = playlist[currentIndex].title;
+  player.setVolume(Number(volumeBar.value));
 }
 
-function mDur() {
-  let length = player.duration;
-  dur.max = length;
-}
-
-function initPlayers(num) {
-  for (let i = 0; i < num; i++) {
-    (function () {
-      let playerContainer = document.getElementById('player-container'),
-        player = document.getElementById('player'),
-        isPlaying = false,
-        playBtn = document.getElementById('play-btn');
-      if (playBtn != null) {
-        playBtn.addEventListener('click', function () {
-          togglePlay()
-        });
-      }
-
-      function togglePlay() {
-        if (player.paused === false) {
-          player.pause();
-          isPlaying = false;
-          $("#play-btn").fadeIn("slow", function () {
-            $(this).removeClass("fa-pause");
-            $(this).addClass("fa-play");
-          });
-        }
-        else {
-          player.play();
-          $("#play-btn").fadeIn("slow", function () {
-            $(this).removeClass("fa-play");
-            $(this).addClass("fa-pause");
-          });
-          isPlaying = true;
-        }
-      }
-    }());
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.PLAYING) {
+    consecutiveErrors = 0;
+    setPlayIcon(true);
+    startProgressLoop();
+  } else if (event.data === YT.PlayerState.PAUSED) {
+    setPlayIcon(false);
+    stopProgressLoop();
+  } else if (event.data === YT.PlayerState.ENDED) {
+    setPlayIcon(false);
+    stopProgressLoop();
+    if (isRepeat) {
+      player.seekTo(0, true);
+      player.playVideo();
+    } else {
+      nextTrack();
+    }
   }
 }
-$("#next").data('dir', 1);
-$("#prev").data('dir', -1);
-$('#next, #prev').on('click', function () {
-  i = (i + $(this).data('dir') + n) % n;
-  console.log(i);
-  player.src = playlist[i].audio;
-  $('.title').html(playlist[i].title);
-  $('#play-btn').removeClass("fa-play");
-  $('#play-btn').addClass("fa-pause");
-  player.play();
+
+// Error codes: 2 = id inválido, 5 = error de reproductor HTML5,
+// 100 = video no encontrado, 101/150 = el dueño no permite reproducirlo incrustado
+function onPlayerError(event) {
+  const track = playlist[currentIndex];
+  console.warn('YouTube player error', event.data, 'en', track && track.title);
+  consecutiveErrors += 1;
+
+  if (consecutiveErrors >= playlist.length) {
+    showToast('Ninguna canción se puede reproducir aquí ahora mismo. Revisa tu conexión.');
+    return;
+  }
+
+  showToast(`"${track ? track.title : 'Esta canción'}" no se puede reproducir aquí. Pasando a la siguiente…`);
+  setTimeout(nextTrack, 900);
+}
+
+function checkFileProtocol() {
+  if (fileWarningEl && window.location.protocol === 'file:') {
+    fileWarningEl.style.display = 'block';
+  }
+}
+
+// --- Event listeners ---
+playBtn.addEventListener('click', togglePlay);
+nextBtn.addEventListener('click', nextTrack);
+prevBtn.addEventListener('click', prevTrack);
+
+shuffleBtn.addEventListener('click', () => {
+  isShuffle = !isShuffle;
+  shuffleBtn.classList.toggle('active', isShuffle);
 });
-$(".audio-player")
-  .toArray()
-  .forEach(function (player) {
-    let audio = $(player).find("audio")[0];
-    let volumeControl = $(player).find(".volumeControl .wrapper");
-    volumeControl.find(".outer").on("click", function (e) {
-      let volumePosition = e.pageX - $(this).offset().left;
-      let audioVolume = volumePosition / $(this).width();
-      if (audioVolume >= 0 && audioVolume <= 1) {
-        audio.volume = audioVolume;
-        $(this)
-          .find(".inner")
-          .css("width", audioVolume * 100 + "%");
-      }
-    });
-  });
-$(function () {
-  // Dropdown toggle
-  $('.dropdown-toggle').click(function () {
-    $(this).next('.dropdown').slideToggle("fast");
-  });
-  $(document).click(function (e) {
-    var target = e.target;
-    if (!$(target).is('.dropdown-toggle') && !$(target).parents().is('.dropdown-toggle')) {
-      $('.dropdown').hide();
-    }
-  });
+
+repeatBtn.addEventListener('click', () => {
+  isRepeat = !isRepeat;
+  repeatBtn.classList.toggle('active', isRepeat);
 });
-$('#darkButton').click(switchDark);
 
+seekBar.addEventListener('input', () => {
+  if (player && player.seekTo) {
+    player.seekTo(Number(seekBar.value), true);
+  }
+});
 
+volumeBar.addEventListener('input', () => {
+  if (player && player.setVolume) {
+    player.setVolume(Number(volumeBar.value));
+  }
+});
 
-initPlayers(jQuery('#player-container').length);
-
+document.addEventListener('DOMContentLoaded', () => {
+  renderPlaylist();
+  checkFileProtocol();
+  loadYouTubeAPI();
+});

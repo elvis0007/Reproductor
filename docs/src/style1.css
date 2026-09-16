@@ -1,108 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,900&display=swap');
-*{
-    font-family: 'Poppins',cursive;
+/* Shared theme (fonts, background, floating hearts, glass base) lives in theme.css */
+
+.intro-wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
 }
-body{
-    color: azure;
+
+.intro-card {
+  max-width: 640px;
+  width: 100%;
+  padding: 2.4rem 1.8rem;
+  text-align: center;
+  animation: fadeInUp 0.9s ease both;
+}
+
+.greetings {
+  font-size: 2.6rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.25;
+}
+
+.greetings > span {
+  animation: glow 2.5s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    color: #fff;
+    text-shadow: 0 0 12px var(--rose), 0 0 45px rgba(255, 93, 143, 0.6), 0 0 90px rgba(255, 209, 102, 0.35);
+  }
+  10%, 90% {
+    color: rgba(255, 255, 255, 0.55);
+    text-shadow: none;
+  }
+}
+
+.greetings > span:nth-child(2) { animation-delay: .2s; }
+.greetings > span:nth-child(3) { animation-delay: .4s; }
+.greetings > span:nth-child(4) { animation-delay: .6s; }
+.greetings > span:nth-child(5) { animation-delay: .8s; }
+.greetings > span:nth-child(6) { animation-delay: 1s; }
+.greetings > span:nth-child(7) { animation-delay: 1.2s; }
+.greetings > span:nth-child(8) { animation-delay: 1.4s; }
+.greetings > span:nth-child(9) { animation-delay: 1.6s; }
+
+.intro-sub {
+  margin: 1.6rem 0 1.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ================= Responsive ================= */
+
+@media screen and (max-width: 640px) {
+  .intro-card {
+    padding: 2rem 1.3rem;
+  }
+  .greetings {
+    font-size: 1.7rem;
+  }
+  .intro-sub {
+    font-size: 0.9rem;
+  }
+  .cta-button {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: rgb(172, 93, 104);
-}
-.greetings{
-    font-size: 6rem;
-    font-weight: 900;
-}
-.greetings > span{
-    animation: glow 2.5s ease-in-out infinite;
-}
-@keyframes glow{
-    0%, 100%{
-        color: #fff;
-        text-shadow: 0 0 12px #a584d3, 0 0 50px #7572ab, 0 0 100px #605c86;
-    }
-    10%, 90%{
-        color: #696565;
-        text-shadow: none;
-    }
-}
-.greetings > span:nth-child(2){
-    animation-delay: .2s ;
-}
-.greetings > span:nth-child(3){
-    animation-delay: .4s ;
-}
-.greetings > span:nth-child(4){
-    animation-delay: .6s;
-}
-.greetings > span:nth-child(5){
-    animation-delay: .8s;
-}
-.greetings > span:nth-child(6){
-    animation-delay: 1s;
-}
-.greetings > span:nth-child(7){
-    animation-delay: 1.2s;
-}
-.greetings > span:nth-child(8){
-    animation-delay: 1.4s;
-}
-.description{
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-}
-
-.button a{
-    text-decoration: none;
-    font-size: 2rem;
-    color: #080808;
-}
-
-@media screen and (max-width:574px){
-    .greetings{
-        display: block;
-        font-size: 2rem;
-        font-weight: 500;
-        text-align: center;
-    }
-    .description{
-        font-size: 1rem;
-    }
-    
-    .button a{
-        font-size: .5rem;
-    }
-}
-
-.description{
-    color: #911b1b;
-}
-
-/* Estilo para el botón */
-.button button {
-    background-color: rgb(213, 219, 225); /* Fondo amarillo */
-    border: none; /* Sin bordes */
-    padding: 10px 20px; /* Ajusta el relleno según tu preferencia */
-    font-size: 40px; /* Tamaño de fuente */
-    cursor: pointer;
-    position: relative; /* Necesario para el resplandor */
-    border-radius: 20px; /* Esquinas redondeadas */
-    transition: background-color 0.2s ease-in-out; /* Transición suave para el color de fondo */
+    padding: 0.85rem 1.4rem;
+    font-size: 0.95rem;
   }
-  
-  /* Estilo para el enlace dentro del botón */
-  .button button a {
-    text-decoration: none; /* Elimina el subrayado del enlace */
-    color: inherit; /* Hereda el color del texto del botón */
+}
+
+@media screen and (max-width: 380px) {
+  .greetings {
+    font-size: 1.35rem;
   }
-  
-  /* Efecto de resplandor al pasar el cursor sobre el botón */
-  .button button:hover {
-    background-color: rgb(141, 138, 171); /* Cambia el color de fondo al pasar el mouse a naranja */
-    box-shadow: 0 0 10px rgb(167, 152, 201), 0 0 20px rgb(146, 136, 190), 0 0 30px rgb(139, 122, 194); /* Efecto de resplandor amarillo */
-  }
-  
-  
+}
